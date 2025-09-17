@@ -8,9 +8,9 @@ def run(cmd):
 
 def main():
     # Run unit tests via discovery
-    run('python -m unittest discover -s tests -p "test_*.py" -v')
+    run('python3 -m unittest discover -s tests -p "test_*.py" -v')
     # README checks
-    run("python scripts/check_readme.py")
+    run("python3 scripts/check_readme.py")
     print("\nALL CHECKS PASSED ✅")
 
 if __name__ == "__main__":
