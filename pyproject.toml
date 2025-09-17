@@ -1,0 +1,7 @@
+[project]
+name = "trees-graphs-assignment"
+version = "0.1.0"
+description = "Post-class assignment: BFS, DFS, trees. Single-file solution with built-in tests."
+requires-python = ">=3.9"
+
+[tool]
