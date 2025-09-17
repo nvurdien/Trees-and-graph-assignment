@@ -55,7 +55,7 @@ The command must end with **"ALL CHECKS PASSED"** to be complete.
 
 ## Class Questions (fill in below)
 
-Replace each `YOUR ANSWER HERE` with 1‑3 sentences.  
+Replace each placeholder with 1‑3 sentences.  
 The `scripts/check_readme.py` script fails if any placeholder remains.
 
 1. **When do you pick BFS vs DFS?**  
