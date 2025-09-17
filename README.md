@@ -91,12 +91,6 @@ The `scripts/check_readme.py` script fails if any placeholder remains.
 
 ---
 
-## License
-MIT
-
-
----
-
 ## CI (GitHub Actions)
 
 After you push this repo to GitHub, your tests will run automatically on each push and pull request.
