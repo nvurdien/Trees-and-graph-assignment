@@ -1,85 +1,91 @@
 """
-Complete these functions. Keep neighbor order deterministic (use the given lists).
-Height is measured in **edges**: a leaf has height 0.
+Extra graph problems for the post-class work:
+- Dijkstra shortest paths (non-negative edge weights)
+- Kruskal's Minimum Spanning Tree (MST) using Union-Find
+- Topological order (DAG) and DAG shortest paths
+- Bipartite check (BFS 2-coloring)
+- Connected components count (undirected)
 """
 
+from typing import Dict, List, Tuple, Any, Optional, Set
+import heapq
 from collections import deque
-from typing import Dict, List, Any, Tuple, Optional, Set
 
-# ---------- Part 1: Graph traversals ----------
+# ----- Dijkstra -----
+def dijkstra(adj: Dict[Any, List[Tuple[Any, int]]], start: Any) -> Tuple[Dict[Any, int], Dict[Any, Any]]:
+    """
+    Input: adjacency list with weights: node -> list of (neighbor, weight).
+    Return: (dist, parent) where dist[v] is the minimum total cost from start to v,
+    and parent maps v -> previous node on a shortest path. Assumes non-negative weights.
+    """
+    # TODO: implement (use a min-heap / priority queue)
+    return {}, {}
 
-def bfs(graph: Dict[Any, List[Any]], start: Any) -> Tuple[List[Any], Dict[Any, Any]]:
-    """
-    Breadth-first search.
-    Return (order, parent).
-    - order: visitation order
-    - parent: map child -> parent used to reconstruct a fewest-hop path
-    """
-    # TODO: implement
-    order: List[Any] = []
-    parent: Dict[Any, Any] = {}
-    return order, parent
+# ----- Union-Find (Disjoint Set) -----
+class UnionFind:
+    def __init__(self, items: Optional[List[Any]] = None):
+        self.parent = {}
+        self.rank = {}
+        if items:
+            for x in items:
+                self.parent[x] = x
+                self.rank[x] = 0
 
-def reconstruct_path(parent: Dict[Any, Any], start: Any, goal: Any) -> List[Any]:
+    def find(self, x: Any) -> Any:
+        # TODO: implement path compression
+        if x not in self.parent:
+            self.parent[x] = x
+            self.rank[x] = 0
+        return x
+
+    def union(self, a: Any, b: Any) -> bool:
+        """
+        Union by rank. Return True if merged (were different), False if already in same set.
+        """
+        # TODO: implement
+        return False
+
+# ----- Kruskal's MST -----
+def kruskal_mst(vertices: List[Any], edges: List[Tuple[int, Any, Any]]) -> List[Tuple[int, Any, Any]]:
     """
-    Rebuild the path from start to goal using the parent map.
-    Return [] if goal is unreachable.
+    vertices: list of nodes
+    edges: list of edges as (weight, u, v)
+    Return: list of edges in the MST (same (w,u,v) format), not necessarily unique ordering.
+    Assumes the graph is connected; if not, returns a Minimum Spanning Forest.
+    """
+    # TODO: implement using UnionFind
+    return []
+
+# ----- Topological order (DAG) -----
+def topo_order_dag(adj: Dict[Any, List[Any]]) -> List[Any]:
+    """
+    Kahn's algorithm (in-degree) or DFS finishing times.
+    Return a list of nodes in topological order.
+    Raise ValueError if a cycle is detected.
     """
     # TODO: implement
     return []
 
-def dfs(graph: Dict[Any, List[Any]], start: Any) -> List[Any]:
+def dag_shortest_paths(adj_w: Dict[Any, List[Tuple[Any, int]]], start: Any) -> Tuple[Dict[Any, int], Dict[Any, Any]]:
     """
-    Depth-first search (recursive or iterative). Return visitation order.
-    """
-    # TODO: implement
-    return []
-
-# ---------- Part 2: Binary tree utilities ----------
-
-class Node:
-    def __init__(self, value: Any, left: Optional["Node"]=None, right: Optional["Node"]=None):
-        self.value = value
-        self.left = left
-        self.right = right
-
-def height(root: Optional[Node]) -> int:
-    """
-    Number of edges on the longest root-to-leaf path.
-    A leaf has height 0; an empty tree may be defined as -1.
+    Shortest paths on a DAG with (non-negative/any) weights using topological order.
+    Return (dist, parent) like Dijkstra.
     """
     # TODO: implement
-    return -1
+    return {}, {}
 
-def preorder(root: Optional[Node]) -> List[Any]:
-    """Pre-order: Node, Left, Right."""
-    # TODO: implement
-    return []
-
-def inorder(root: Optional[Node]) -> List[Any]:
-    """In-order: Left, Node, Right."""
-    # TODO: implement
-    return []
-
-def postorder(root: Optional[Node]) -> List[Any]:
-    """Post-order: Left, Right, Node."""
-    # TODO: implement
-    return []
-
-# ---------- Part 3: Mini-apps ----------
-
-def shortest_path_length(grid: List[str]) -> int:
+# ----- Bipartite check -----
+def is_bipartite(adj: Dict[Any, List[Any]]) -> bool:
     """
-    BFS on a grid (4-direction moves). Return fewest steps from 'S' to 'T' or -1 if unreachable.
-    The grid is a list of equal-length strings using: '#', '.', 'S', 'T'.
+    BFS 2-coloring on each component. Return True if bipartite, else False.
     """
     # TODO: implement
-    return -1
+    return False
 
-def distance_two(graph: Dict[Any, List[Any]], person: Any) -> Set[Any]:
+# ----- Connected components count -----
+def count_components(adj: Dict[Any, List[Any]]) -> int:
     """
-    Return the set of nodes at exactly distance 2 from `person`, excluding `person` and direct friends.
-    Treat the graph as undirected.
+    Treat as undirected. Return the number of connected components.
     """
     # TODO: implement
-    return set()
+    return 0

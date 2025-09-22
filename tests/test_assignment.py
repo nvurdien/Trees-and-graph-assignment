@@ -1,67 +1,75 @@
 import unittest
 
 from src.assignment import (
-    bfs, reconstruct_path, dfs,
-    Node, height, preorder, inorder, postorder,
-    shortest_path_length, distance_two
+    dijkstra, kruskal_mst, topo_order_dag, dag_shortest_paths,
+    is_bipartite, count_components
 )
+from src.trie import Trie
 
-class TestGraphsTrees(unittest.TestCase):
-    def setUp(self):
-        # Deterministic neighbor order
-        self.graph = {
-            'A': ['B', 'C'],
-            'B': ['A', 'D'],
-            'C': ['A', 'E'],
-            'D': ['B', 'F'],
-            'E': ['C'],
-            'F': ['D'],
-        }
-
-    def test_bfs_and_path(self):
-        order, parent = bfs(self.graph, 'A')
-        self.assertEqual(order, ['A', 'B', 'C', 'D', 'E', 'F'])
-        path = reconstruct_path(parent, 'A', 'F')
-        self.assertEqual(path, ['A', 'B', 'D', 'F'])
-
-    def test_dfs(self):
-        order = dfs(self.graph, 'A')
-        self.assertEqual(order, ['A', 'B', 'D', 'F', 'C', 'E'])
-
-    def test_tree_utils(self):
-        #       4
-        #      / \
-        #     2   6
-        #    / \   \
-        #   1   3   7
-        n1 = Node(1); n3 = Node(3); n7 = Node(7)
-        n2 = Node(2, n1, n3)
-        n6 = Node(6, None, n7)
-        root = Node(4, n2, n6)
-        self.assertEqual(height(root), 2)  # edges
-        self.assertEqual(preorder(root), [4, 2, 1, 3, 6, 7])
-        self.assertEqual(inorder(root),  [1, 2, 3, 4, 6, 7])
-        self.assertEqual(postorder(root),[1, 3, 2, 7, 6, 4])
-
-    def test_maze_and_friends(self):
-        grid = [
-            "S..#.",
-            ".#.#.",
-            "..#..",
-            "#....",
-            "...#T",
-        ]
-        self.assertEqual(shortest_path_length(grid), 8)
-
+class TestExtraGraphs(unittest.TestCase):
+    def test_dijkstra_small(self):
         g = {
-            'P': ['A', 'B'],
-            'A': ['P', 'C'],
-            'B': ['P', 'D'],
-            'C': ['A'],
-            'D': ['B', 'E'],
-            'E': ['D'],
+            'A': [('B', 2), ('C', 5)],
+            'B': [('D', 2)],
+            'C': [('D', 1)],
+            'D': [],
         }
-        self.assertEqual(distance_two(g, 'P'), {'C', 'D'})
+        dist, parent = dijkstra(g, 'A')
+        # Expected after implementation
+        self.assertIsInstance(dist, dict)
+        self.assertIsInstance(parent, dict)
+
+    def test_kruskal_mst(self):
+        V = ['A','B','C','D']
+        E = [
+            (1,'A','B'),
+            (4,'B','C'),
+            (1,'C','D'),
+            (3,'A','D'),
+            (2,'B','D'),
+        ]
+        mst = kruskal_mst(V, E)
+        self.assertIsInstance(mst, list)
+
+    def test_topo_and_dag_shortest(self):
+        adj = {
+            'A': ['B','D'],
+            'B': ['C'],
+            'C': ['E'],
+            'D': ['E'],
+            'E': [],
+        }
+        order = topo_order_dag(adj)
+        self.assertIsInstance(order, list)
+        adj_w = {
+            'A': [('B',1), ('D',4)],
+            'B': [('C',1)],
+            'C': [('E',1)],
+            'D': [('E',1)],
+            'E': [],
+        }
+        dist, parent = dag_shortest_paths(adj_w, 'A')
+        self.assertIsInstance(dist, dict)
+        self.assertIsInstance(parent, dict)
+
+    def test_bipartite_and_components(self):
+        g = {
+            1: [2],
+            2: [1,3],
+            3: [2,4],
+            4: [3],
+        }
+        _ = is_bipartite(g)
+        _ = count_components(g)
+
+class TestTrie(unittest.TestCase):
+    def test_trie_basic(self):
+        t = Trie()
+        for w in ["to", "tea", "ten", "in", "inn"]:
+            t.insert(w)
+        _ = t.search("to")
+        _ = t.starts_with("te")
+        _ = t.suggest("te", k=3)
 
 if __name__ == "__main__":
     unittest.main()

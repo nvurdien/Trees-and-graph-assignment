@@ -5,28 +5,20 @@ Then run the provided scripts to verify you’re done.
 
 ---
 
-## What to implement (in `src/assignment.py`)
+## What to implement
 
-1. **Breadth‑First Search (`bfs`)**  
-   Returns `(order, parent)` where `order` is the visitation order and `parent` maps a node to its discoverer.
+### Solve 5 graph problems (in `src/assignment.py`)
+1. **Dijkstra shortest paths** (weighted, non-negative; return dist and parent) — `src/assignment.py:dijkstra`
+2. **Minimum Spanning Tree (Kruskal)** using **Union–Find** — `src/assignment.py:kruskal_mst`
+3. **Topological order (DAG)** — `src/assignment.py:topo_order_dag`
+4. **Shortest paths on a DAG** (relax edges in topo order) — `src/assignment.py:dag_shortest_paths`
+5. **Bipartite check** (BFS 2-color) **and/or** **Connected components** — `src/assignment.py:is_bipartite`, `count_components`
 
-2. **Reconstruct Path (`reconstruct_path`)**  
-   Given `parent`, `start`, `goal`, return the path `start → ... → goal` (list). If unreachable, return `[]`.
+### Implement a Trie-based autocomplete
+- Build a `Trie` with `insert`, `search`, `starts_with`, and `suggest(prefix, k)` — `src/trie.py`
+- See tests in `tests/test_assignment.py` for expected behavior.
 
-3. **Depth‑First Search (`dfs`)**  
-   Return visitation order using depth‑first search.
-
-4. **Binary Tree utilities (`height`, `preorder`, `inorder`, `postorder`)**  
-   Height is measured in **edges**: a leaf has height `0`.
-
-5. **Mini‑application A: `shortest_path_length`**  
-   BFS on a grid (4‑direction moves) to return the fewest steps from `S` to `T` or `-1` if unreachable.
-
-6. **Mini‑application B: `distance_two`**  
-   Friend‑of‑friend: return the set of nodes at **exactly distance 2** from `person` in an undirected graph,
-   excluding `person` and direct friends.
-
-> You can implement both mini‑apps; tests expect at least these functions to work.
+> All tests must pass (`python scripts/run_all.py`) to complete the assignment.
 
 ---
 
